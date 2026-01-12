@@ -44,22 +44,19 @@ Features Added Beyond Level 3 Requirements:
 -----------------------------------------------------------------------------
 '''
 
-import pygame
-pygame.init()
+
 
 # *********SETUP**********
 
-windowWidth = 500
-windowHeight = 500
-window = pygame.display.set_mode((windowWidth, windowHeight))
-clock = pygame.time.Clock()  #will allow us to set framerate
+
 
 # *********GAME LOOP**********
-while True:
+
+
+
+
     # *********EVENTS**********
-    ev = pygame.event.poll()    # Look for any event
-    if ev.type == pygame.QUIT:  # windowow close button clicked?
-        break                   #   ... leave game loop
+
    
     #PUT YOUR MOUSE/KEYBOARD EVENTS HERE
    
@@ -72,8 +69,3 @@ while True:
     #PUT YOUR DRAWING, IMAGE PLACEMENT, BLIT ETC.. COMMANDS HERE FOR EACH GAMESTATE'''
 
     # *********SHOW THE FRAME TO THE USER**********
-    pygame.display.flip()
-    clock.tick(60) #Force frame rate to 60fps or lower
-
-
-pygame.quit()

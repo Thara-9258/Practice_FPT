@@ -1,0 +1,89 @@
+import pygame 
+import random 
+pygame.init()
+
+WindowWidth = 600
+WindowHeight = 400
+
+window = pygame.display.set_mode((WindowWidth,WindowHeight))
+clock = pygame.time.Clock()
+GameBg = pygame.image.load("images/bg.png")
+GameOver = pygame.image.load("images/gameover.png")
+Title = pygame.image.load("images/title.png")
+
+state = "HOME"
+BeginButton = pygame.Rect(0,0,600,400)
+Bugs = [
+    pygame.image.load ("images/bug0.png"),
+    pygame.image.load ("images/bug1.png"),
+    pygame.image.load ("images/bug2.png"),
+    pygame.image.load ("images/bug3.png"),
+    pygame.image.load ("images/bug4.png"),
+    pygame.image.load ("images/bug5.png"),
+    pygame.image.load ("images/bug6.png"),
+    pygame.image.load ("images/bug7.png")
+
+]
+
+font = pygame.font.Font ("fonts/fontminecraft.ttf", 26)
+BLACK = (0,0,0)
+CurrentBug = None
+BugRect = None
+BugsClicked = 0
+Running = True
+while Running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            Running = False
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            click_pos = event.pos
+            if state == "HOME":
+                if BeginButton.collidepoint(click_pos):
+                    state = "PLAY"
+
+    if state == "HOME":
+        window.blit(GameBg, (0,0))
+        GameInstructions1 = "click screen to start game"
+        GameInstructions2 = "CLick bugs to win, smash 15 bugs!"
+        RenderText1 = font.render(GameInstructions1,True, (BLACK))
+        RenderText2 = font.render(GameInstructions2, True, (BLACK))
+        window.blit(RenderText1, (70, 300))
+        window.blit(RenderText2, (60, 200))
+        window.blit(Title, (40,40))
+
+    if state == "PLAY":
+        window.blit(GameBg, (0,0))
+        if CurrentBug == None:
+            CurrentBug = random.choice(Bugs)
+            BugSize = random.randint(75, 100)
+            CurrentBug = pygame.transform.scale(CurrentBug, (BugSize,BugSize))
+            Bugx = random.randint(0, WindowWidth - BugSize)
+            Bugy = random.randint(0,WindowHeight - BugSize)
+            BugRect = CurrentBug.get_rect(topleft = (Bugx, Bugy))
+        if CurrentBug is not None:
+            window.blit(CurrentBug, BugRect)
+        RenderText3 = font.render("Current score is: " + str(BugsClicked), 1, pygame.Color(BLACK))
+        window.blit(RenderText3, (200, 350))
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            click_pos = event.pos
+
+            if CurrentBug is not None:
+                if BugRect.collidepoint(click_pos):
+                    print("Bug clicked")
+
+                    CurrentBug = None
+                    BugRect = None 
+                    BugsClicked += 1
+                    if BugsClicked == 15:
+                        state = "WIN"
+
+    if state == "WIN":
+        window.blit(GameBg, (0,0,))
+        window.blit(GameOver, (0,80))
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+
+

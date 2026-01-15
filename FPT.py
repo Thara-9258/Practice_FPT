@@ -58,9 +58,6 @@ GameBg = pygame.image.load("images/bg.png")
 GameOver = pygame.image.load("images/gameover.png")
 Title = pygame.image.load("images/title.png")
 
-x = random.randint(10,590)
-y = random.randint(10, 390)
-
 state = "HOME"
 
 BeginButton = pygame.Rect(0,0,600,400)
